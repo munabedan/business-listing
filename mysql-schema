@@ -1,0 +1,48 @@
+CREATE TABLE users (
+  id TEXT PRIMARY KEY,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  email VARCHAR(255),
+  role VARCHAR(255),
+  hashed_password TEXT
+);
+
+CREATE TABLE listings (
+  id TEXT PRIMARY KEY,
+  owner_id TEXT,
+  name VARCHAR(255),
+  description VARCHAR(255),
+  phone VARCHAR(255),
+  address VARCHAR(255),
+  email VARCHAR(255),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+
+CREATE TABLE images (
+  id TEXT PRIMARY KEY,
+  listing_id TEXT,
+  url VARCHAR(255),
+  FOREIGN KEY (listing_id) REFERENCES listings(id)
+);
+
+CREATE TABLE orders (
+  id TEXT PRIMARY KEY,
+  listing_id TEXT,
+  customer_id TEXT,
+  status VARCHAR(255),
+  created_at DATETIME,
+  message VARCHAR(255),
+  FOREIGN KEY (listing_id) REFERENCES listings(id),
+  FOREIGN KEY (customer_id) REFERENCES users(id)
+);
+
+CREATE TABLE reviews (
+  id TEXT PRIMARY KEY,
+  listing_id TEXT,
+  customer_id TEXT,
+  rating INT,
+  message VARCHAR(255),
+  FOREIGN KEY (listing_id) REFERENCES listings(id),
+  FOREIGN KEY (customer_id) REFERENCES users(id)
+);
+
