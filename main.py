@@ -1,14 +1,33 @@
-from fastapi import FastAPI, HTTPException
-from typing import List
+from fastapi import FastAPI, HTTPException, Query
+from typing import List,Optional
 from pydantic import BaseModel
+from fastapi.responses import Response
+from fastapi.middleware.cors import CORSMiddleware
+
 
 import sqlite3
 from uuid import uuid4
 import bcrypt
+import os
 
 db = 'logis.db'
 
+
+
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+
 
 # ----------------------------------------------------------------------------
 # Models
@@ -75,6 +94,16 @@ class AuthResponse(BaseModel):
     email: str
     role: str    
 
+class SearchResults(BaseModel):
+    id: str
+    owner_id: str
+    name: str
+    description: str
+    phone: str
+    address: str
+    email: str
+
+
 # ----------------------------------------------------------------------------
 # GET /Status
 #-----------------------------------------------------------------------------
@@ -82,21 +111,66 @@ class AuthResponse(BaseModel):
 async def get_api_status():
     return {"Status": "UP"}
 
+
+#- ---------------------------------------------------------------------------
+# GET /uuid
+#-----------------------------------------------------------------------------
+@app.get("/uuid", response_model=List[str])
+async def get_uuid(num : int):
+
+    uuids = []
+    for i in range(num):
+        uuid = uuid4()
+        uuids.append(str(uuid))
+        
+    return uuids
+
+# ----------------------------------------------------------------------------
+# GET /search
+#-----------------------------------------------------------------------------
+
+@app.get("/search")
+async def search_listings(query: str):
+    # fetch all items from the database
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM listings_fts WHERE listings_fts MATCH ?", (query,))
+    rows = cursor.fetchall()
+
+    listings = []
+    for row in rows:
+        listing = SearchResults(
+            id=row[0],
+            owner_id=row[1],
+            name=row[2],
+            description=row[3],
+            phone=row[4],
+            address=row[5],
+            email=row[6]
+        )
+        listings.append(listing)
+
+    cursor.close()
+    conn.close()
+
+    return listings
+
 # ----------------------------------------------------------------------------
 # GET /listings
 #-----------------------------------------------------------------------------
 
-@app.get("/listings", response_model=List[Listing])
-async def get_all_listings():
-    
-    # fetch all items from database
 
+@app.get("/listings", response_model=List[Listing])
+async def get_all_listings(owner_id: Optional[str] = Query(None)):
+    
+    # fetch all items from the database
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
 
     listings = []
 
-    # create function to fetch images from image table and add them to the listing object if none return empty list
+    # create a function to fetch images from the image table and add them to the listing object
     def fetch_images(listing: Listing):
         cursor.execute("SELECT * FROM images WHERE listing_id = ?", (listing.id,))
         rows = cursor.fetchall()
@@ -104,7 +178,6 @@ async def get_all_listings():
             print("No images found")
             return
         else:
-            
             for row in rows:
                 image = Image(
                     id=row[1],
@@ -112,12 +185,12 @@ async def get_all_listings():
                 )
                 listing.images.append(image)
 
-
-    
-
-    # create function to fetch listings from database and add them to the listings object
+    # create a function to fetch listings from the database and add them to the listings object
     def fetch_listings():
-        cursor.execute("SELECT * FROM listings")
+        if owner_id is None:
+            cursor.execute("SELECT * FROM listings")
+        else:
+            cursor.execute("SELECT * FROM listings WHERE owner_id = ?", (owner_id,))
         rows = cursor.fetchall()
         print(rows)
         for row in rows:
@@ -134,7 +207,6 @@ async def get_all_listings():
             fetch_images(listing)
             listings.append(listing)
 
-
     try:
         fetch_listings()
     except:
@@ -142,12 +214,10 @@ async def get_all_listings():
         conn.close()
         raise HTTPException(status_code=500, detail="Failed to fetch listings")
 
-    
     cursor.close()
     conn.close()
 
     return listings
-
 # ----------------------------------------------------------------------------
 # GET /listings/{id}
 #-----------------------------------------------------------------------------
@@ -312,7 +382,7 @@ async def delete_listing(id: str):
 #-----------------------------------------------------------------------------
 
 @app.get("/orders", response_model=List[Order])
-async def get_all_orders():
+async def get_all_orders(customer_id: Optional[str] = Query(None), owner_id: Optional[str] = Query(None)):
     # Connect to the SQLite3 database
     conn = sqlite3.connect(db)
 
@@ -323,7 +393,14 @@ async def get_all_orders():
 
     # create function to fetch orders from database and add them to the orders object
     def fetch_orders():
-        cursor.execute("SELECT * FROM orders")
+
+        if customer_id is None:
+            cursor.execute("SELECT * FROM orders")
+        elif customer_id is not None:
+            cursor.execute("SELECT * FROM orders WHERE customer_id = ?", (customer_id,))
+        elif owner_id is not None:
+            cursor.execute("SELECT * FROM orders WHERE listing_id IN (SELECT id FROM listings WHERE owner_id = ?)", (owner_id,))    
+                
         rows = cursor.fetchall()
 
         for row in rows:
@@ -400,7 +477,7 @@ async def get_order(id: str):
 # ----------------------------------------------------------------------------
 
 @app.post("/orders", response_model=Order)
-async def create_order(order: Order):
+async def create_order():
     # Connect to the SQLite3 database
     conn = sqlite3.connect(db)
 
@@ -463,7 +540,7 @@ async def delete_order(id: str):
 #-----------------------------------------------------------------------------
 
 @app.get("/reviews", response_model=List[Review])
-async def get_all_reviews():
+async def get_all_reviews(listing_id: Optional[str] = Query(None), customer_id: Optional[str] = Query(None), owner_id: Optional[str] = Query(None)):
     # Connect to the SQLite3 database
     conn = sqlite3.connect(db)
 
@@ -473,8 +550,15 @@ async def get_all_reviews():
 
     def fetch_reviews():
         try:
-            # Execute the query to fetch reviews
-            cursor.execute("SELECT * FROM reviews")
+            if listing_id is None:
+                cursor.execute("SELECT * FROM reviews")
+            elif listing_id is not None:
+                cursor.execute("SELECT * FROM reviews WHERE listing_id = ?", (listing_id,))    
+
+            elif customer_id is not None:
+                cursor.execute("SELECT * FROM reviews WHERE customer_id = ?", (customer_id,))    
+            elif owner_id is not None:
+                cursor.execute("SELECT * FROM reviews WHERE listing_id IN (SELECT id FROM listings WHERE owner_id = ?)", (owner_id,))    
 
             # Fetch all rows returned by the query
             rows = cursor.fetchall()
@@ -613,11 +697,39 @@ async def delete_review(id: str):
     return id
 
 # ----------------------------------------------------------------------------
+# GET /images
+#-----------------------------------------------------------------------------
+
+
+# Define the directory where your images are stored
+image_directory = 'images'
+
+
+@app.get("/image/{filename}")
+async def get_image(filename: str):
+    try:
+        # Construct the filepath
+        filepath = os.path.join(image_directory, filename)
+
+        # Open the file in binary mode and read its contents
+        with open(filepath, 'rb') as file:
+            content = file.read()
+
+        # Create a response with the file content and content type set to image/jpeg
+        return Response(content=content, media_type='image/jpeg')
+
+    except IOError:
+        # Raise a 404 error if the file is not found
+        raise HTTPException(status_code=404, detail=f"File Not Found: {filename}")
+
+
+# ----------------------------------------------------------------------------
 # POST /user
 # ----------------------------------------------------------------------------
 
 @app.post("/user", response_model=str)
 async def create_user(user: UserRequest):
+    print(user)
 
     # Connect to the SQLite3 database
     conn = sqlite3.connect(db)
@@ -656,7 +768,9 @@ async def create_user(user: UserRequest):
         raise HTTPException(status_code=500, detail="Failed to insert user")
 
    
+    # return code 200 if user is created successfully
     return id
+
 
 
 

@@ -7,6 +7,8 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/style.css">
+
 </head>
 
 <body>
@@ -21,17 +23,12 @@
                 </a>
             </div>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2">Features</a></li>
-                <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
-            </ul>
 
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2">Login</button>
-                <button type="button" class="btn btn-primary">Sign-up</button>
+                <button type="button" class="btn btn-outline-primary" onclick="openDashboard()">Dashboard</button>
+
+                <button type="button" class="btn btn-outline-primary" onclick="logout()">Logout</button>
+
             </div>
         </header>
     </div>
@@ -40,99 +37,103 @@
 
     <main>
         <div class="container px-4 py-5" id="custom-cards">
-            <h2 class="pb-2 border-bottom">Custom cards</h2>
+            <h2 class="pb-2 border-bottom business-name"></h2>
 
-            <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-                <div class="col">
-                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                        style="background-image: url('unsplash-photo-1.jpg');">
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                            <h5 class="pt-5 mt-5 mb-4  lh-1 fw-bold">Short title, long jacket</h5>
+            <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5 business-images">
 
-                        </div>
+            </div>
+
+            <div class="container">
+                <div class="row ">
+                    <div class="col-md-6">
+                        <h1 class="h3 mb-3 fw-normal">Description</h1>
+
+                        <p class="business-description"></p>
+
                     </div>
-                </div>
-
-                <div class="col">
-                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                        style="background-image: url('unsplash-photo-2.jpg');">
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                            <h5 class="pt-5 mt-5 mb-4  lh-1 fw-bold">Much longer title that wraps to multiple
-                                lines</h5>
-
+                    <div class="col-md-6" >
+                        <h1 class="h3 mb-3 fw-normal">Reviews</h1>
+                        <div id="reviewsContainer">
+                            
                         </div>
-                    </div>
-                </div>
 
-                <div class="col">
-                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                        style="background-image: url('unsplash-photo-3.jpg');">
-                        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                            <h5 class="pt-5 mt-5 mb-4  lh-1 fw-bold">Another longer title belongs here</h5>
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="container">
-            <div class="row">
+            <div class="row h-100 p-5 bg-body-tertiary border rounded-3">
                 <div class="col-md-6">
-                    <h2>Blockquotes</h2>
-                    <p>This is an example blockquote in action:</p>
-                    <blockquote class="blockquote">
-                        <p>Quoted text goes here.</p>
-                    </blockquote>
-                    <p>This is some additional paragraph placeholder content. It has been written to fill the available
-                        space and show how a longer snippet of text affects the surrounding content. We'll repeat it
-                        often to keep the demonstration flowing, so be on the lookout for this exact same string of
-                        text.</p>
-                    <h3>Example lists</h3>
-                    <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the
-                        other highly repetitive body text used throughout. This is an example unordered list:</p>
-                    <ul>
-                        <li>First list item</li>
-                        <li>Second list item with a longer description</li>
-                        <li>Third list item to close it out</li>
-                    </ul>
-                    <p>And this is an ordered list:</p>
-                    <ol>
-                        <li>First list item</li>
-                        <li>Second list item with a longer description</li>
-                        <li>Third list item to close it out</li>
-                    </ol>
-                    <p>And this is a definition list:</p>
+                    <form role="form">
+
+                        <h1 class="h3 mb-3 fw-normal">Leave a review:</h1>
+
+
+
+                        <div class="form-group justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">Rating:</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                    value="1" style="height: 1em !important;">
+                                <label class="form-check-label" for="inlineRadio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                    value="2" style="height: 1em !important;">
+                                <label class="form-check-label" for="inlineRadio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                                    value="3" style="height: 1em !important;">
+                                <label class="form-check-label" for="inlineRadio3">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4"
+                                    value="4" style="height: 1em !important;">
+                                <label class="form-check-label" for="inlineRadio4">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5"
+                                    value="5" style="height: 1em !important;">
+                                <label class="form-check-label" for="inlineRadio5">5</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" rows="5" placeholder="Message" required
+                                id="comment"></textarea>
+                        </div>
+
+                        <input class="btn btn-outline-primary w-100" type="button" onclick="createReview()"
+                            value="Submit review"></input>
+
+                    </form>
+
                 </div>
 
                 <div class="col-md-6">
-                    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                        <form>
+                    <form role="form">
+                        <h1 class="h3 mb-3 fw-normal">Write to owner:</h1>
 
-                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-                            <div class="form-floating">
-                                <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
-                            </div>
-                            <div class="form-floating">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
-                                <label for="floatingPassword">Password</label>
-                            </div>
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
+                                required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" rows="5" placeholder="Message" id="message"
+                                required></textarea>
+                        </div>
 
-                            <div class="form-check text-start my-3">
-                                <input class="form-check-input" type="checkbox" value="remember-me"
-                                    id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Remember me
-                                </label>
-                            </div>
-                            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-                            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-                        </form>
-                    </div>
+                        <input class="btn btn-outline-primary w-100" type="button" onclick="createMessage()"
+                            value="Submit message"></input>
+                    </form>
+
 
 
 
@@ -143,21 +144,257 @@
         </div>
     </main>
 
-    <div class="container">
         <footer class="footer py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-            </ul>
-            <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+          
+            <p class="text-center text-body-secondary">&copy; 2023 Logis, Inc
+</p>
         </footer>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+
+<script>
+
+    function logout() {
+        localStorage.removeItem("user")
+        window.location.href = "index.html"
+    }
+    // get listing item
+    // get itemId http://127.0.0.1:5500/site/item.html?itemId=dd05434f-b116-45ca-a0f8-91c957ba3f76
+
+    // Get the listing ID from the query parameters
+
+    let url = new URL(window.location.href);
+    const listingId = url.searchParams.get('itemId');
+    console.log(listingId);
+
+    let user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+
+    url = 'http://localhost:8000/'
+
+
+
+
+
+    // Make a GET request to fetch the listing item
+    fetch(url + `listings/${listingId}`)
+        .then(response => response.json())
+        .then(listing => {
+            // Handle the response data
+            console.log(listing);
+
+
+            // Update your UI or perform further operations with the listing item
+
+
+            // Get the container element
+            const container = document.getElementById('custom-cards');
+
+            // Set the business name
+            const businessName = container.querySelector('.business-name');
+            businessName.textContent = listing.name;
+
+            // Create card elements for each image
+            const imagesContainer = container.querySelector('.business-images');
+            listing.images.forEach((image) => {
+                const cardCol = document.createElement('div');
+                cardCol.className = 'col';
+
+                const card = document.createElement('div');
+                card.className = 'card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg';
+
+                // create image and add to card
+                const cardImage = document.createElement('img');
+
+                cardImage.src = `http://127.0.0.1:7000/${image.url}`;
+                card.appendChild(cardImage);
+
+                cardCol.appendChild(card);
+                imagesContainer.appendChild(cardCol);
+            });
+
+            // Set the business description
+            const businessDescription = container.querySelector('.business-description');
+            businessDescription.textContent = listing.description;
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Error:', error);
+        });
+
+
+    function getReviews(reviews) {
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch(`http://127.0.0.1:8000/reviews?listing_id=${listingId}`, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+
+                console.log(result)
+                reviews = JSON.parse(result)
+
+                reviews.forEach(
+                    review => {
+                        console.log(review)
+                        const stars = '<img src="assets/star-fill.svg"></img>'.repeat(review.rating);
+
+                        const ratingHTML = `
+                    
+                            <div class="rating-item">
+                            <div class="stars">
+                            ${stars}
+                            </div>
+                            <p>
+                            ${review.message}
+                            </p>
+                            </div>
+                        `;
+
+                        const reviewsContainer = document.getElementById('reviewsContainer');
+                        reviewsContainer.innerHTML += ratingHTML;
+                    }
+                )
+            })
+            .catch(error => console.log('error', error));
+
+
+
+
+    }
+
+    getReviews()
+
+    function createReview() {
+        // if message and rating is empty return 
+
+        if (document.getElementById("comment").value == "" || document.querySelector('input[name="inlineRadioOptions"]:checked').value == "") {
+            alert("Please fill in all fields")
+            return
+        }
+
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+
+        fetch(url + "uuid?num=" + 1, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+
+                uuids = JSON.parse(result)
+
+                const data = {
+                    "id": uuids[0],
+                    "listingId": listingId,
+                    "customerId": user.id,
+                    "rating": document.querySelector('input[name="inlineRadioOptions"]:checked').value,
+                    "message": document.getElementById("comment").value,
+                }
+
+                console.log(data)
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify(data);
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("http://127.0.0.1:8000/reviews", requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        alert("Review sent successfully")
+                        console.log(result)
+                    })
+                    .catch(error => console.log('error', error));
+
+            }
+            )
+
+
+
+    }
+
+    function createMessage() {
+        // if message and rating is empty return 
+
+        if (document.getElementById("subject").value == "" || document.getElementById("message").value == "") {
+            alert("Please fill in all fields")
+            return
+        }
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+
+        fetch(url + "uuid?num=" + 1, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+
+                uuids = JSON.parse(result)
+
+
+
+                const data = {
+                    "id": uuids[0],
+                    "listingId": listingId,
+                    "customerId": user.id,
+                    "status": "new",
+                    "createdAt": new Date().toISOString(),
+                    "message": document.getElementById("message").value,
+                }
+
+                console.log(data)
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify(data);
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("http://127.0.0.1:8000/orders", requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        alert("Message sent successfully")
+                        console.log(result)
+                    })
+                    .catch(error => console.log('error', error));
+
+            }
+            )
+
+
+
+    }
+
+
+    function openDashboard(){
+        window.location.href = "client.html"
+    }
+
+</script>

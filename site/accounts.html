@@ -7,6 +7,8 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/style.css">
+
 </head>
 
 <body>
@@ -14,27 +16,20 @@
         <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
-                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                    <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap">
-                        <use xlink:href="#bootstrap" />
-                    </svg>
+                <!---png logo-->
+                <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                    <img src="assets/logis.png" alt="logo" height="70" class="rounded-circle flex-shrink-0">
                 </a>
+
+
+
             </div>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2">Features</a></li>
-                <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
-            </ul>
 
-            <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2">Login</button>
-                <button type="button" class="btn btn-primary">Sign-up</button>
-            </div>
+
         </header>
     </div>
+
 
 
     <main class="form-signin w-100 m-auto">
@@ -44,80 +39,202 @@
                 <div class="col-md-6">
                     <div class="h-100 p-5 bg-body-tertiary border rounded-3">
                         <form>
-                            
-                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+                            <h1 class="h5 mb-3 fw-normal">If you already have an account with us</h1>
 
                             <div class="form-floating">
-                                <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
+                                <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
+                                <label for="loginEmail">Email address</label>
                             </div>
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
-                                <label for="floatingPassword">Password</label>
+                                <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+                                <label for="loginPassword">Password</label>
                             </div>
 
-                            <div class="form-check text-start my-3">
-                                <input class="form-check-input" type="checkbox" value="remember-me"
-                                    id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Remember me
-                                </label>
-                            </div>
-                            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-                            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
+
+                            <input class="btn btn-outline-primary w-100" type="button" onclick="loginUser()"
+                                value="Sign in"></input>
                         </form>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="h-100 p-5 bg-body-tertiary border rounded-3">
                         <form>
-                           
-                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-                            <div class="form-floating">
-                                <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
+                            <h1 class="h3 mb-3 fw-normal">If you dont have an account with us</h1>
+
+                            <!--first name, last name , email , password , password-->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="registerFirstName" placeholder="
+                                            First Name">
+                                        <label for="registerFirstName">First Name</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="registerLastName"
+                                            placeholder="Last Name">
+                                        <label for="registerLastName">Last Name</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
-                                <label for="floatingPassword">Password</label>
+                                <input type="email" class="form-control" id="registerEmail" placeholder="Enter email">
+                                <label for="registerEmail">Email address</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="registerPassword"
+                                    placeholder="Enter Password">
+                                <label for="registerPassword">Password</label>
+
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="confirmPassword"
+                                    placeholder="Confirm Password">
+                                <label for="confirmPassword">Confirm Password</label>
                             </div>
 
-                            <div class="form-check text-start my-3">
-                                <input class="form-check-input" type="checkbox" value="remember-me"
-                                    id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Remember me
-                                </label>
-                            </div>
-                            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-                            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
+
+                            <input class="btn btn-outline-primary w-100 " type="button" onclick="registerUser()"
+                                value="Register"></input>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        
 
-    <div class="container">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-            </ul>
-            <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
-        </footer>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
+
+            <footer class="py-3 my-4">
+                
+                <p class="text-center text-body-secondary">&copy; 2023 Logis, Inc
+</p>
+            </footer>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+
+<script>
+
+    url = 'http://localhost:8000/'
+    // get login form values
+
+    const loginUser = () => {
+
+
+        let email = document.getElementById('loginEmail').value;
+        let password = document.getElementById('loginPassword').value;
+
+
+
+       
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "email": email,
+            "password": password
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(url + "auth", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+                if (result){
+                    alert('login successful');
+                    // store result to local storage {"id":"d8a3ce3c4cc74c58903e76739cda502a","firstName":"Muna","lastName":"Bedan","email":"m@gmail.com","role":"owner"}
+                    
+                    localStorage.setItem('user', result);
+
+                    // check user role and redirect to appropriate page
+                    let user = JSON.parse(result);
+                    if (user.role == 'owner'){
+                        window.location.href = 'owner.html';}
+                    else if (user.role == 'client'){
+                        window.location.href = 'home.html';}
+                    
+                    
+
+
+                }else{
+                    alert('login failed');
+                }
+            })
+            .catch(error => console.log('error', error));
+    };
+
+
+
+
+    // get register form values
+
+    const registerUser = () => {
+
+        let firstName = document.getElementById('registerFirstName').value;
+        let lastName = document.getElementById('registerLastName').value;
+        let email = document.getElementById('registerEmail').value;
+        let password = document.getElementById('registerPassword').value;
+        let confirmPassword = document.getElementById('confirmPassword').value;
+        let role = localStorage.getItem('role');
+
+        if (confirmPassword != password) {
+            alert('passwords do not match');
+        } else {
+
+            // fetch request to register user and wait for response
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "password": password,
+                "role": role
+            });
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch(url + 'user', requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    if (result) {
+                        alert('user created successfully');
+                    } else {
+                        alert('user creation failed');
+                    }
+                }
+                )
+                .catch(error => console.log('error', error));
+
+        }
+
+
+
+
+
+    }
+
+</script>

@@ -7,16 +7,6 @@ CREATE TABLE users (
   hashed_password TEXT
 );
 
-CREATE TABLE listings (
-  id TEXT PRIMARY KEY,
-  owner_id TEXT,
-  name VARCHAR(255),
-  description VARCHAR(255),
-  phone VARCHAR(255),
-  address VARCHAR(255),
-  email VARCHAR(255),
-  FOREIGN KEY (owner_id) REFERENCES users(id)
-);
 
 CREATE TABLE images (
   id TEXT PRIMARY KEY,
@@ -46,3 +36,53 @@ CREATE TABLE reviews (
   FOREIGN KEY (customer_id) REFERENCES users(id)
 );
 
+-- Create the listings table
+CREATE TABLE listings (
+  id TEXT PRIMARY KEY,
+  owner_id TEXT,
+  name VARCHAR(255),
+  description VARCHAR(255),
+  phone VARCHAR(255),
+  address VARCHAR(255),
+  email VARCHAR(255),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+
+-- Create the listings_fts table
+CREATE VIRTUAL TABLE listings_fts USING FTS5(
+  id, 
+  owner_id UNINDEXED, 
+  name, 
+  description, 
+  phone, 
+  address, 
+  email, 
+  content='listings'
+);
+
+-- Create an AFTER INSERT trigger to replicate new rows
+CREATE TRIGGER listings_insert_trigger AFTER INSERT ON listings
+BEGIN
+  INSERT INTO listings_fts(rowid, id, owner_id, name, description, phone, address, email)
+    VALUES (new.rowid, new.id, new.owner_id, new.name, new.description, new.phone, new.address, new.email);
+END;
+
+-- Create an AFTER UPDATE trigger to replicate updated rows
+CREATE TRIGGER listings_update_trigger AFTER UPDATE ON listings
+BEGIN
+  UPDATE listings_fts SET
+    id = new.id,
+    owner_id = new.owner_id,
+    name = new.name,
+    description = new.description,
+    phone = new.phone,
+    address = new.address,
+    email = new.email
+  WHERE rowid = old.rowid;
+END;
+
+-- Create an AFTER DELETE trigger to replicate deleted rows
+CREATE TRIGGER listings_delete_trigger AFTER DELETE ON listings
+BEGIN
+  DELETE FROM listings_fts WHERE rowid = old.rowid;
+END;

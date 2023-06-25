@@ -417,112 +417,32 @@ Any other response means it is not working properly.
 }
 ```
 
+# Images
+
+## Get an image
+
+**Endpoint:** `/images/{id}`
+
+**Method:** `GET`
+
+**Request body:**
+```json
+{
+
+}
+```
+
+**Response:**
+```json
+{
+    "id": "1",
+    "url": "https://example.com/image1.jpg"
+}
+```
 
 # Users
 
-## Get all users
 
-**Endpoint:** `/users`
-
-**Method:** `GET`
-
-**Request body:**
-```json
-{
-
-}
-```
-
-**Response:**
-```json
-[
-    {
-        "id": "1",
-        "firstName": "First name 1",
-        "lastName": "Last name 1",
-        "email": "",
-        "role": ""
-    }
-]
-
-```
-
-## Get one user
-
-**Endpoint:** `/users/{id}`
-**Method:** `GET`
-
-**Request body:**
-```json
-{
-
-}
-```
-
-**Response:**
-```json
-{
-    "id": "1",
-    "firstName": "First name 1",
-    "lastName": "Last name 1",
-    "email": "",
-    "role": ""
-
-}
-```
-
-## Create a user
-
-**Endpoint:** `/users`
-
-**Method:** `POST`
-
-**Request body:**
-```json
-{
-    "firstName": "First name 1",
-    "lastName": "Last name 1",
-    "password": "",
-    "email": "",
-    "role": ""
-
-}
-```
-
-**Response:**
-```json
-{
-    "id": "1",
-    "firstName": "First name 1",
-    "lastName": "Last name 1",
-    "email": ""
-}
-```
-
-## Delete a user
-
-**Endpoint:** `/users/{id}`
-
-**Method:** `DELETE`
-
-**Request body:**
-```json
-{
-
-}
-```
-
-**Response:**
-```json
-{
-    "id": "1",
-    "firstName": "First name 1",
-    "lastName": "Last name 1",
-    "email": "",
-    "role": ""
-
-}
-```
 
 
 ## Authentication
