@@ -7,7 +7,7 @@
     <title>Logis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 
 </head>
 
@@ -24,6 +24,14 @@
 
 
             </div>
+            <!--bootstrap 5.3 search input -->
+            <div class="col-md-4 text-end">
+                <input class="form-control shadow-none" type="text" placeholder="Search" aria-label="Search"
+                    onchange="performSearch(this)">
+            </div>
+
+
+
 
 
             <div class="col-md-3 text-end">
@@ -36,6 +44,17 @@
 
 
     <main>
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+                <div class="list-group" id="searchResultsContainer">
+
+
+
+
+                </div>
+            </div>
+        </div>
+
 
 
         <div class="album py-5 bg-body-tertiary">
@@ -48,11 +67,11 @@
         </div>
 
     </main>
-        <footer class="py-3 my-4">
-            
-            <p class="text-center text-body-secondary">&copy; 2023 Logis, Inc
-</p>
-        </footer>
+    <footer class="py-3 my-4">
+
+        <p class="text-center text-body-secondary">&copy; 2023 Logis, Inc
+        </p>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
@@ -67,13 +86,13 @@
     url = 'http://localhost:8000/'
 
     function logout() {
-    localStorage.removeItem("user")
-    window.location.href = "index.html"
-  }
+        localStorage.removeItem("user")
+        window.location.href = "index.html"
+    }
 
-  function openDashboard() {
-    window.location.href = "client.html"
-  }
+    function openDashboard() {
+        window.location.href = "client.html"
+    }
     // fetch /listings 
 
     fetch(url + 'listings')
@@ -118,6 +137,78 @@
 
             }
         )
+
+
+
+    function performSearch(input) {
+        // Retrieve the search query from the input element
+        var query = input.value;
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/search?query=shop", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+
+                // Get the container element where you want to display the listings
+                const parentElement = document.getElementById('searchResultsContainer');
+
+                // Iterate over the listings array
+                listings.forEach((listing) => {
+                    // Create the <a> element
+                    var anchorElement = document.createElement('a');
+                    anchorElement.href =`item.html?itemId=${listing.id}`;
+                    anchorElement.className = 'list-group-item  list-group-item-action d-flex gap-3 py-3';
+                    anchorElement.setAttribute('aria-current', 'true');
+
+                    // Create the <img> element and set its attributes
+                    var imageElement = document.createElement('img');
+                    imageElement.src = 'assets/logis.png';
+                    imageElement.alt = 'twbs';
+                    imageElement.width = '65';
+                    imageElement.height = '50';
+                    imageElement.className = 'rounded-circle flex-shrink-0';
+
+                    // Create the <div> element to hold the text content
+                    var contentDiv = document.createElement('div');
+                    contentDiv.className = 'd-flex gap-2 w-100 justify-content-between';
+
+                    // Create the <div> element for business name and description
+                    var textDiv = document.createElement('div');
+
+                    // Create the <h6> element for the business name
+                    var nameElement = document.createElement('h6');
+                    nameElement.className = 'mb-0 business-name';
+                    nameElement.textContent = listing.name;
+
+                    // Create the <p> element for the business description
+                    var descriptionElement = document.createElement('p');
+                    descriptionElement.className = 'mb-0 opacity-75 business-description';
+                    descriptionElement.textContent = listing.description;
+
+                    // Append the name and description elements to the text div
+                    textDiv.appendChild(nameElement);
+                    textDiv.appendChild(descriptionElement);
+
+                    // Append the image element and text div to the content div
+                    contentDiv.appendChild(imageElement);
+                    contentDiv.appendChild(textDiv);
+
+                    // Append the content div to the anchor element
+                    anchorElement.appendChild(contentDiv);
+
+                    // Append the anchor element to the parent element
+                    parentElement.appendChild(anchorElement);
+                });
+
+            })
+            .catch(error => console.log('error', error));
+
+    }
 
 
 
