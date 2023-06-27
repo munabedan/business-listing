@@ -165,7 +165,7 @@
         window.location.href = "index.html"
     }
     // get listing item
-    // get itemId http://127.0.0.1:5500/site/item.html?itemId=dd05434f-b116-45ca-a0f8-91c957ba3f76
+    // get itemId http://localhost:5500/site/item.html?itemId=dd05434f-b116-45ca-a0f8-91c957ba3f76
 
     // Get the listing ID from the query parameters
 
@@ -212,7 +212,7 @@
                 // create image and add to card
                 const cardImage = document.createElement('img');
 
-                cardImage.src = `http://127.0.0.1:7000/${image.url}`;
+                cardImage.src = `http://localhost:7000/${image.url}`;
                 card.appendChild(cardImage);
 
                 cardCol.appendChild(card);
@@ -236,7 +236,7 @@
             redirect: 'follow'
         };
 
-        fetch(`http://127.0.0.1:8000/reviews?listing_id=${listingId}`, requestOptions)
+        fetch(`http://localhost:8000/reviews?listing_id=${listingId}`, requestOptions)
             .then(response => response.text())
             .then(result => {
 
@@ -318,7 +318,7 @@
                     redirect: 'follow'
                 };
 
-                fetch("http://127.0.0.1:8000/reviews", requestOptions)
+                fetch("http://localhost:8000/reviews", requestOptions)
                     .then(response => response.text())
                     .then(result => {
                         alert("Review sent successfully")
@@ -381,7 +381,7 @@
                     redirect: 'follow'
                 };
 
-                fetch("http://127.0.0.1:8000/orders", requestOptions)
+                fetch("http://localhost:8000/orders", requestOptions)
                     .then(response => response.text())
                     .then(result => {
                         alert("Message sent successfully")

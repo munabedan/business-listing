@@ -106,7 +106,7 @@
                 listings.forEach((listing) => {
                     // Check if the listing has at least one image
                     if (listing.images.length > 0) {
-                        const imageUrl = "http://127.0.0.1:7000/" + listing.images[0].url; // Get the URL of the first image
+                        const imageUrl = "http://localhost:7000/" + listing.images[0].url; // Get the URL of the first image
 
                         // crop listing.description to 100 characters
                         listing.description = listing.description.substring(0, 200);
@@ -152,7 +152,7 @@
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/search?query=" + query, requestOptions)
+        fetch("http://localhost:8000/search?query=" + query, requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log(result)
