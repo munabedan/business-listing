@@ -35,8 +35,8 @@
 
 
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary" onclick="openDashboard()">Dashboard</button>
-                <button type="button" class="btn btn-outline-primary" onclick="logout()">Logout</button>
+                <button type="button" class="btn btn-success" onclick="openDashboard()">Dashboard</button>
+                <button type="button" class="btn btn-success" onclick="logout()">Logout</button>
 
             </div>
         </header>
@@ -114,6 +114,12 @@
                         // Create the listing item element
                         const listingItem = document.createElement('div');
                         listingItem.classList.add('col');
+
+                        // crop listing.description to 100 characters
+                        listing.description = listing.description.substring(0, 200);
+
+                        listing.description = listing.description + ' ...';
+
                         listingItem.innerHTML = `
   <div class="card shadow-sm">
     <img src="${imageUrl}" class="card-img-top" alt="Listing Image">
@@ -121,7 +127,7 @@
       <p class="card-text listing-description">${listing.description}</p>
       <div class="d-flex justify-content-between align-items-center">
         <div class="btn-group">
-          <a type="button" class="btn btn-sm btn-outline-primary" href="item.html?itemId=${listing.id}">View</a>
+          <a type="button" class="btn btn-sm btn-success" href="item.html?itemId=${listing.id}">View</a>
         </div>
         <small class="text-body-secondary listing-name">${listing.name}</small>
       </div>
@@ -143,16 +149,19 @@
     function performSearch(input) {
         // Retrieve the search query from the input element
         var query = input.value;
+        console.log(query)
 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/search?query=shop", requestOptions)
+        fetch("http://127.0.0.1:8000/search?query=" + query, requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log(result)
+
+                listings = JSON.parse(result)
 
                 // Get the container element where you want to display the listings
                 const parentElement = document.getElementById('searchResultsContainer');
@@ -161,7 +170,7 @@
                 listings.forEach((listing) => {
                     // Create the <a> element
                     var anchorElement = document.createElement('a');
-                    anchorElement.href =`item.html?itemId=${listing.id}`;
+                    anchorElement.href = "roles.html";
                     anchorElement.className = 'list-group-item  list-group-item-action d-flex gap-3 py-3';
                     anchorElement.setAttribute('aria-current', 'true');
 
@@ -188,6 +197,12 @@
                     // Create the <p> element for the business description
                     var descriptionElement = document.createElement('p');
                     descriptionElement.className = 'mb-0 opacity-75 business-description';
+
+                    // crop listing.description to 100 characters
+                    listing.description = listing.description.substring(0, 100);
+
+                    listing.description = listing.description + ' ...';
+
                     descriptionElement.textContent = listing.description;
 
                     // Append the name and description elements to the text div

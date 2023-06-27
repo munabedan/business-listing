@@ -24,7 +24,7 @@
 
 
       </div>
-      <button type="button" class="btn btn-outline-primary" onclick="logout()">Logout</button>
+      <button type="button" class="btn btn-success" onclick="logout()">Logout</button>
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-                <input class="btn btn-outline-primary w-100" type="button" onclick="createListing()"
+                <input class="btn btn-success w-100" type="button" onclick="createListing()"
                   value="Create Listing"></input>
               </form>
             </div>
@@ -134,7 +134,7 @@
           <div class="container" id="viewReviewsPage" style="display: none;">
             <div class="card">
               <div class="card-body">
-                <input class="btn btn-outline-primary w-10 float-end" type="button" onclick="viewReviews()" value="Reload"></input>
+                <input class="btn btn-success w-10 float-end" type="button" onclick="viewReviews()" value="Reload"></input>
                 <h5 class="card-title">My reviews</h5>
 
 
@@ -164,7 +164,7 @@
           <div class="container" id="viewOrdersPage" style="display: none;">
             <div class="card">
               <div class="card-body">
-                <input class="btn btn-outline-primary w-10 float-end" type="button" onclick="viewOrders()" value="Reload"></input>
+                <input class="btn btn-success w-10 float-end" type="button" onclick="viewOrders()" value="Reload"></input>
                 <h5 class="card-title">My messages</h5>
 
 
@@ -194,7 +194,7 @@
           <div class="container" id="viewListingsPage" style="display: none;">
             <div class="card">
               <div class="card-body">
-                <input class="btn btn-outline-primary w-10 float-end" type="button" onclick="viewListings()" value="Reload"></input>
+                <input class="btn btn-success w-10 float-end" type="button" onclick="viewListings()" value="Reload"></input>
                 <h5 class="card-title">My listings</h5>
 
 
@@ -394,7 +394,12 @@
         };
         fetch("http://127.0.0.1:8000/listings", requestOptions)
           .then(response => response.text())
-          .then(result => console.log(result))
+          .then(result => {
+            console.log(result)
+            alert("Listing created successfully")
+            //reload
+            location.reload();
+          })
           .catch(error => console.log('error', error));
 
       })

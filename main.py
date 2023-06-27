@@ -477,7 +477,7 @@ async def get_order(id: str):
 # ----------------------------------------------------------------------------
 
 @app.post("/orders", response_model=Order)
-async def create_order():
+async def create_order(order: Order):
     # Connect to the SQLite3 database
     conn = sqlite3.connect(db)
 

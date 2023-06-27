@@ -37,8 +37,8 @@
 
 
             <div class=" col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary" onclick="openRoles()">Login</button>
-                <button type="button" class="btn btn-outline-primary" onclick="openRoles()">Register</button>
+                <button type="button" class="btn btn-success" onclick="openRoles()">Login</button>
+                <button type="button" class="btn btn-success" onclick="openRoles()">Register</button>
             </div>
         </header>
     </div>
@@ -57,7 +57,7 @@
         </div>
 
 
-        <div class="album py-5 bg-body-tertiary">
+        <div class="album py-5 ">
             <div class="container">
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="listingPage">
@@ -68,9 +68,9 @@
 
     </main>
     <footer class="py-3 my-4">
-       
+
         <p class="text-center text-body-secondary">&copy; 2023 Logis, Inc
-</p>
+        </p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
@@ -108,6 +108,12 @@
                     if (listing.images.length > 0) {
                         const imageUrl = "http://127.0.0.1:7000/" + listing.images[0].url; // Get the URL of the first image
 
+                        // crop listing.description to 100 characters
+                        listing.description = listing.description.substring(0, 200);
+
+                        listing.description = listing.description + ' ...';
+
+
                         // Create the listing item element
                         const listingItem = document.createElement('div');
                         listingItem.classList.add('col');
@@ -118,7 +124,7 @@
       <p class="card-text listing-description">${listing.description}</p>
       <div class="d-flex justify-content-between align-items-center">
         <div class="btn-group">
-          <a type="button" class="btn btn-sm btn-outline-primary" href="roles.html">View</a>
+          <a type="button" class="btn btn-sm btn-success" href="roles.html">View</a>
         </div>
         <small class="text-body-secondary listing-name">${listing.name}</small>
       </div>
@@ -139,16 +145,19 @@
     function performSearch(input) {
         // Retrieve the search query from the input element
         var query = input.value;
+        console.log(query)
 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/search?query=shop", requestOptions)
+        fetch("http://127.0.0.1:8000/search?query=" + query, requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log(result)
+
+                listings = JSON.parse(result)
 
                 // Get the container element where you want to display the listings
                 const parentElement = document.getElementById('searchResultsContainer');
@@ -184,6 +193,12 @@
                     // Create the <p> element for the business description
                     var descriptionElement = document.createElement('p');
                     descriptionElement.className = 'mb-0 opacity-75 business-description';
+
+                    // crop listing.description to 100 characters
+                    listing.description = listing.description.substring(0, 100);
+
+                    listing.description = listing.description + ' ...';
+
                     descriptionElement.textContent = listing.description;
 
                     // Append the name and description elements to the text div

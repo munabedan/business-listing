@@ -26,9 +26,9 @@
 
 
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary" onclick="openDashboard()">Dashboard</button>
+                <button type="button" class="btn btn-success" onclick="openDashboard()">Dashboard</button>
 
-                <button type="button" class="btn btn-outline-primary" onclick="logout()">Logout</button>
+                <button type="button" class="btn btn-success" onclick="logout()">Logout</button>
 
             </div>
         </header>
@@ -110,7 +110,7 @@
                                 id="comment"></textarea>
                         </div>
 
-                        <input class="btn btn-outline-primary w-100" type="button" onclick="createReview()"
+                        <input class="btn btn-success w-100" type="button" onclick="createReview()"
                             value="Submit review"></input>
 
                     </form>
@@ -131,7 +131,7 @@
                                 required></textarea>
                         </div>
 
-                        <input class="btn btn-outline-primary w-100" type="button" onclick="createMessage()"
+                        <input class="btn btn-success w-100" type="button" onclick="createMessage()"
                             value="Submit message"></input>
                     </form>
 
@@ -322,6 +322,9 @@
                     .then(response => response.text())
                     .then(result => {
                         alert("Review sent successfully")
+                        // refresh page
+                        window.location.href = "item.html?itemId=" + listingId
+
                         console.log(result)
                     })
                     .catch(error => console.log('error', error));
