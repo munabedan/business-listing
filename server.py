@@ -10,5 +10,5 @@ os.chdir(web_dir)
 
 Handler = http.server.SimpleHTTPRequestHandler
 httpd = socketserver.TCPServer(("", PORT), Handler)
-print(f"Serving HTML files at http://localhost:{PORT}")
+print(f"Serving HTML files at http://172.31.42.73:{PORT}")
 httpd.serve_forever()
